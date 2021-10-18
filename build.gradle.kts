@@ -1,5 +1,7 @@
 plugins {
     kotlin("multiplatform") version "1.5.10"
+    id("java")
+    id("jacoco")
 }
 
 group = "me.davidg"
@@ -48,5 +50,33 @@ kotlin {
         val jsTest by getting
         val nativeMain by getting
         val nativeTest by getting
+    }
+}
+
+tasks.jacocoTestReport {
+    val coverageSourceDirs = arrayOf(
+        "src/commonMain/kotlin",
+        "src/jvmMain/kotlin"
+    )
+
+    val classFiles = File("${buildDir}/classes/kotlin/jvm/")
+        .walkBottomUp()
+        .toSet()
+
+    classDirectories.setFrom(classFiles)
+    sourceDirectories.setFrom(files(coverageSourceDirs))
+
+    executionData
+        .setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
+
+    reports {
+        html.isEnabled = true
+        xml.isEnabled = false
+    }
+}
+
+sonarqube {
+    properties {
+        property("sonar.sources", "src/commonMain/kotlin")
     }
 }
