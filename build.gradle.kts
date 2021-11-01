@@ -72,9 +72,11 @@ tasks.jacocoTestReport {
 
     reports {
         html.isEnabled = true
-        xml.isEnabled = false
+        xml.isEnabled = true
     }
 }
+
+tasks.test.get().finalizedBy(tasks.jacocoTestReport)
 
 sonarqube {
     properties {
