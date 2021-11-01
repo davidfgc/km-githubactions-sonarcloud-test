@@ -81,5 +81,8 @@ tasks.test.get().finalizedBy(tasks.jacocoTestReport)
 sonarqube {
     properties {
         property("sonar.sources", "src/commonMain/kotlin")
+        property("sonar.projectKey", "davidfgc_km-githubactions-sonarcloud-test")
+        property("sonar.organization", "davidfgc")
+        property("sonar.host.url", "https://sonarcloud.io")
     }
 }
